@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Простой калькулятор</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f0f2f5;
+        }
+        .calculator {
+            background: #ffffff;
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+            width: 320px;
+            text-align: center;
+        }
+        h2 {
+            margin-top: 0;
+            color: #333;
+            font-size: 1.25rem;
+            margin-bottom: 1.5rem;
+        }
+        input {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 1rem;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            box-sizing: border-box;
+            font-size: 16px;
+            transition: border-color 0.2s;
+        }
+        input:focus {
+            outline: none;
+            border-color: #007bff;
+        }
+        button {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 0.75rem;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.2s, transform 0.1s;
+        }
+        button:active {
+            transform: scale(0.98);
+        }
+        .btn-add {
+            background-color: #007bff;
+            color: white;
+        }
+        .btn-add:hover {
+            background-color: #0056b3;
+        }
+        .btn-clear {
+            background-color: #e2e6ea;
+            color: #495057;
+        }
+        .btn-clear:hover {
+            background-color: #dbe0e5;
+        }
+        #result {
+            margin-top: 1.5rem;
+            font-size: 1.2rem;
+            font-weight: bold;
+            min-height: 1.5em;
+            word-wrap: break-word;
+        }
+        .error {
+            color: #dc3545;
+        }
+        .success {
+            color: #28a745;
+        }
+    </style>
+</head>
+<body>
+    <div class="calculator">
+        <h2>Калькулятор</h2>
+        <input type="number" id="num1" placeholder="Число 1" step="any">
+        <input type="number" id="num2" placeholder="Число 2" step="any">
+        
+        <button class="btn-add" id="addBtn">Сложить</button>
+        <button class="btn-clear" id="clearBtn">Очистить</button>
+        
+        <div id="result"></div>
+    </div>
+
+    <script>
+        const num1Input = document.getElementById('num1');
+        const num2Input = document.getElementById('num2');
+        const addBtn = document.getElementById('addBtn');
+        const clearBtn = document.getElementById('clearBtn');
+        const resultDiv = document.getElementById('result');
+
+        addBtn.addEventListener('click', () => {
+            const val1 = num1Input.value.trim();
+            const val2 = num2Input.value.trim();
+
+            // Проверка на пустоту и корректность числа
+            if (val1 === '' || val2 === '' || isNaN(val1) || isNaN(val2)) {
+                resultDiv.textContent = 'Введите два числа';
+                resultDiv.className = 'error';
+            } else {
+                const sum = parseFloat(val1) + parseFloat(val2);
+                // Избегаем проблем с плавающей точкой (например, 0.1 + 0.2)
+                const formattedSum = Math.round(sum * 100000000) / 100000000;
+                resultDiv.textContent = `Результат: ${formattedSum}`;
+                resultDiv.className = 'success';
+            }
+        });
+
+        clearBtn.addEventListener('click', () => {
+            num1Input.value = '';
+            num2Input.value = '';
+            resultDiv.textContent = '';
+            resultDiv.className = '';
+            num1Input.focus();
+        });
+    </script>
+</body>
+</html>
